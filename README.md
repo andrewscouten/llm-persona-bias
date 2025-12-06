@@ -30,7 +30,7 @@ This project analyzes biases in Large Language Models using pre-generated person
 3. **Word Importance**: Identifying key linguistic features associated with demographic attributes
 4. **Visualization**: Creating comprehensive visualizations of bias patterns and embedding spaces
 
-The study investigates how demographic characteristics (age, gender, ethnicity, etc.) correlate with language model outputs and how these biases can be quantified and visualized.
+The study investigates how demographic characteristics (age, gender, ethnicity, etc.) correlate with language model outputs and how these biases can be quantified and visualized. For further information, see the [Project Proposal](./docs/CS%207313%20–%20Project%20Proposal.pdf) and [Project Requirements](./docs/Project%20Requirements.md).
 
 ## Project Structure
 
