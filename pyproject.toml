@@ -1,16 +1,18 @@
 [project]
 name = "cs7313"
 version = "0.1.0"
-description = "Add your description here"
+description = "CS7313 Group Project"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "hdbscan>=0.8.40",
     "matplotlib>=3.10.7",
     "numba>=0.63.0rc1",
     "pandas>=2.3.3",
     "plotly>=6.5.0",
     "scikit-learn>=1.7.2",
     "seaborn>=0.13.2",
+    "textblob>=0.19.0",
     "tqdm>=4.67.1",
     "transformers>=4.57.3",
     "umap-learn>=0.5.9.post2",
@@ -18,26 +20,27 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "ipywidgets>=8.1.8",
     "ipykernel>=7.1.0",
-    "jupyter>=1.1.1",
+    "nbformat>=5.10.4",
 ]
 
 [project.optional-dependencies]
 cpu = [
-  "torch",
-  "torchvision",
+  "torch>=2.9.1",
+  "torchtext",
 ]
 cu128 = [
-  "torch",
-  "torchvision",
+  "torch>=2.9.1",
+  "torchtext",
 ]
 cu130 = [
-  "torch",
-  "torchvision",
+  "torch>=2.9.1",
+  "torchtext",
 ]
 rocm = [
-  "torch",
-  "torchvision",
+  "torch>=2.9.1",
+  "torchtext",
   "pytorch-triton-rocm"
 ]
 
@@ -62,7 +65,7 @@ torch = [
   { index = "pytorch-cu130", extra = "cu130" },
   { index = "pytorch-rocm", extra = "rocm" },
 ]
-torchvision = [
+torchtext = [
   { index = "pytorch-cpu", extra = "cpu" },
   { index = "pytorch-cu128", extra = "cu128" },
   { index = "pytorch-cu130", extra = "cu130" },
@@ -91,3 +94,10 @@ explicit = true
 name = "pytorch-rocm"
 url = "https://download.pytorch.org/whl/rocm6.4"
 explicit = true
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
