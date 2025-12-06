@@ -20,6 +20,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pylint>=4.0.4",
+    "autopep8>=2.3.2",
     "ipywidgets>=8.1.8",
     "ipykernel>=7.1.0",
     "nbformat>=5.10.4",
