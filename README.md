@@ -1,114 +1,138 @@
-# CS7313 Group Project
+# CS7313 Group Project: Analyzing Biases in Large Language Models
 
-**By:** *Tanha Tahseen* and *Andrew Scouten*
+[![Python 14](https://img.shields.io/badge/python-3.14-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Development Environment
+A comprehensive study examining biases in Large Language Models (LLMs) through analysis of persona-based text generations and embeddings. This project analyzes pre-generated data from the [markedpersonas](https://github.com/myracheng/markedpersonas) project to investigate how demographic attributes influence language model outputs and explore bias patterns.
 
-### Andrew's Environment
+## Authors
 
-    PC Specifications:
-    CPU: AMD Ryzen 7 7800X3D 8-Core Processor
-    GPU: AMD Radeon RX 7800 XT, 16 GB
-    RAM: 32 GB
+- **Andrew Scouten**
+- **Tanha Tahseen**
 
-    OS:
-    Windows 11
-    WSL 2.6.1.0 running Ubuntu 24.04.3 LTS
+## Table of Contents
 
-    VSCode
-    Extensions: WSL, Python, Jupyter
+- [Overview](#overview)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Clone Repository](#clone-repository)
+  - [Install Dependencies](#install-dependencies)
+- [Development Environment](#development-environment)
+- [License](#license)
 
-### Operating System
+## Overview
 
-This project uses **Ubuntu 24.04.3 LTS**. 
+This project analyzes biases in Large Language Models using pre-generated persona data from the [markedpersonas](https://github.com/myracheng/markedpersonas) project. The analysis focuses on:
 
-#### WSL 
+1. **Embedding Analysis**: Analyzing embeddings from persona-based text generations to identify clustering patterns and biases
+2. **Sentiment Analysis**: Examining sentiment variations across different demographic personas
+3. **Word Importance**: Identifying key linguistic features associated with demographic attributes
+4. **Visualization**: Creating comprehensive visualizations of bias patterns and embedding spaces
 
-For a computer running Windows, you can utilize WSL by running the command:
+The study investigates how demographic characteristics (age, gender, ethnicity, etc.) correlate with language model outputs and how these biases can be quantified and visualized.
+
+## Project Structure
+
+```
+.
+├── docs/               # Project documentation and documents
+├── markedpersonas/     # Git submodule with pre-generated persona data
+│   ├── data/           # Pre-generated datasets from the markedpersonas project
+├── notebooks/          # Project notebooks
+├── src/cs7313/         # Source code
+├── pyproject.toml      # Project dependencies
+└── README.md
+```
+
+## Installation
+
+### Prerequisites
+
+- **Python 3.14**
+- **Ubuntu 24.04.3 LTS** (or compatible Linux distribution)
+- **PyTorch-compatible hardware** (CPU, CUDA, or ROCm)
+
+#### Windows Users (WSL)
+
+For Windows users, we recommend using WSL 2:
+
 ```sh
 wsl --install -d Ubuntu-24.04
 ```
 
-##### AMD GPU Compatibility
+#### AMD GPU Setup (ROCm)
 
-If you have an AMD GPU and wish to utilize it, you will need to run the following in WSL (taken from [here](https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/docs/install/installrad/wsl/install-radeon.html)):
+If using an AMD GPU, install ROCm support:
 
-###### 1. Install AMD unified driver package repositories and installer script
 ```sh
+# Install AMD unified driver package
 sudo apt update
 wget https://repo.radeon.com/amdgpu-install/6.4.2.1/ubuntu/noble/amdgpu-install_6.4.60402-1_all.deb
 sudo apt install ./amdgpu-install_6.4.60402-1_all.deb
-```
 
-###### 2. Install AMD unified kernel-mode GPU driver, ROCm, and graphics
-
-```sh
+# Install ROCm
 amdgpu-install -y --usecase=wsl,rocm --no-dkms
-```
 
-You can see other use cases with:
-```sh
-sudo amdgpu-install --list-usecase
-```
-
-###### 3. Post-install verification check
-```sh
+# Verify installation
 rocminfo
 ```
 
-You should see your GPU listed:
+### Clone Repository
 
-    [...]
-    *******
-    Agent 2
-    *******
-    Name:                    gfx1100
-    Marketing Name:          Radeon RX 7900 XTX
-    Vendor Name:             AMD
-    [...]
-    [...]
-
-
-### Clone the Repository
 ```sh
-git clone https://github.com/andrewscouten/CS7313-Group-Project.git
+git clone --recurse-submodules https://github.com/andrewscouten/CS7313-Group-Project.git
 cd CS7313-Group-Project
 ```
 
-### Download Dependencies
+### Install Dependencies
 
-This project uses [uv](https://docs.astral.sh/uv/getting-started/installation/) as a dependency manager. To use uv to install dependencies, the command depends on your PyTorch version requirements listed below.
+This project uses [uv](https://docs.astral.sh/uv/getting-started/installation/) for dependency management. Choose the appropriate installation based on your hardware:
 
-#### CPU
+##### CPU Only
 ```sh
 uv sync --extra cpu
 ```
 
-#### CUDA 12.8
+##### CUDA 12.8
 ```sh
 uv sync --extra cu128
 ```
 
-#### CUDA 13.0
+##### CUDA 13.0
 ```sh
 uv sync --extra cu130
 ```
 
-#### ROCm 6.4
+##### ROCm 6.4
 ```sh
 uv sync --extra rocm
 ```
 
-To get PyTorch to use my GPU on ROCm 6.4, I had to do the following (taken from [here](https://www.reddit.com/r/ROCm/comments/1ep4cru/rocm_613_complete_install_instructions_from_wsl/)):
+**ROCm Post-Installation Troubleshooting**
 
+If PyTorch does not detect your GPU, try the following:
 ```sh
 location=`uv pip show torch | grep Location | awk -F ": " '{print $2}'`
 rm ${location}/torch/lib/libhsa-runtime64.so*
 cp /opt/rocm/lib/libhsa-runtime64.so ${location}/torch/lib/libhsa-runtime64.so
 ```
 
-
-<!-- 
+#### Install Project
 ```sh
+uv pip install -e .
 ```
--->
+
+## Development Environment
+
+### Tested Configuration
+
+- **CPU**: AMD Ryzen 7 7800X3D 8-Core Processor
+- **GPU**: AMD Radeon RX 7800 XT (16 GB)
+- **RAM**: 32 GB
+- **OS**: Windows 11 with WSL 2.6.1.0 running Ubuntu 24.04.3 LTS
+- **IDE**: VSCode with WSL, Python, and Jupyter extensions
+
+## License
+
+This project is licensed under the MIT license terms specified in the [LICENSE](LICENSE) file.
