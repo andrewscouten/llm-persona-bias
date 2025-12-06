@@ -1,66 +1,114 @@
-## Introduction
+# CS7313 Group Project
 
-This project is the final assignment for the course and replaces the final exam. The goal is for you to work on a machine learning problem in depth. You will formulate a question, design experiments, implement models, and report your findings. This process will help you apply the concepts from the course to a real problem. You will work in groups of two. 
+**By:** *Tanha Tahseen* and *Andrew Scouten*
 
-## The First Step: Project Proposal
+## Development Environment
 
-The first deliverable is a project proposal. You have one week to form your group, choose a project, and write a 1-2 page proposal.
+### Andrew's Environment
 
-The purpose of the proposal is to ensure your project's scope is reasonable. It should not be too hard or too easy. The instructor and TA will review your proposal and provide feedback. A project cannot proceed without an approved proposal.
+    PC Specifications:
+    CPU: AMD Ryzen 7 7800X3D 8-Core Processor
+    GPU: AMD Radeon RX 7800 XT, 16 GB
+    RAM: 32 GB
 
-Your proposal must include:
+    OS:
+    Windows 11
+    WSL 2.6.1.0 running Ubuntu 24.04.3 LTS
 
-- Your names and your chosen project track.
-- The paper or problem you will focus on.
-- Problem Statement: A clear paragraph explaining your goal.
-- Methodology: A brief, step-by-step plan.
-- Dataset: A link to the dataset(s) you will use.
-- Evaluation Plan: Explain how you will measure success. For example, "We will compare the accuracy of our model to the accuracy reported in Table 2 of the paper."
-- Track-Specific Requirement for Track 4: If you choose Track 4, your proposal must also identify the two different model families you plan to compare and state your main hypothesis.
+    VSCode
+    Extensions: WSL, Python, Jupyter
 
-## Project Tracks
+### Operating System
 
-Choose one of the following four tracks for your project.
+This project uses **Ubuntu 24.04.3 LTS**. 
 
-### Track 1: Reproducibility Study
+#### WSL 
 
-- Goal: Find a published paper where the code is not available. Implement the method from the paper and try to reproduce its key results.
-- Good Project: The paper should be complex enough to be a challenge but simple enough to implement in a month. It should give enough technical detail to make your work possible.
-- Main Challenge: Papers often leave out important details. Your grade depends on your effort and your analysis of why your results may differ from the paper's, not on matching their numbers exactly.
+For a computer running Windows, you can utilize WSL by running the command:
+```sh
+wsl --install -d Ubuntu-24.04
+```
 
-### Track 2: Novel Extension
+##### AMD GPU Compatibility
 
-- Goal: Choose a paper where the code is available. First, run the code and replicate a key result. Then, add a meaningful extension to the work.
-- What is an extension? An extension could be applying the method to a new dataset, changing the model architecture, adding a new feature, or running an analysis the original authors did not do. A small change like tuning a single hyperparameter is not enough.
-- Main Challenge: Defining an extension that is both interesting and possible to complete. You must justify why your extension is useful.
+If you have an AMD GPU and wish to utilize it, you will need to run the following in WSL (taken from [here](https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/docs/install/installrad/wsl/install-radeon.html)):
 
-### Track 3: Replication and Rebuttal
+###### 1. Install AMD unified driver package repositories and installer script
+```sh
+sudo apt update
+wget https://repo.radeon.com/amdgpu-install/6.4.2.1/ubuntu/noble/amdgpu-install_6.4.60402-1_all.deb
+sudo apt install ./amdgpu-install_6.4.60402-1_all.deb
+```
 
-- Goal: Find a paper with claims that seem surprising or not fully supported. Replicate the experiments to verify the claims. Your goal is to either provide stronger support for the paper's conclusion or show that its claims are incorrect.
-- Good Project: This track is difficult. The paper's claims should be interesting, and its method must be clear enough for you to replicate. Your own experiments must be designed very carefully.
-- Main Challenge: You may find the paper was correct after all. Success is based on the quality of your investigation, not on proving the paper wrong. You must get instructor approval for the paper you choose for this track.
+###### 2. Install AMD unified kernel-mode GPU driver, ROCm, and graphics
 
-### Track 4: Applied Machine Learning Investigation
+```sh
+amdgpu-install -y --usecase=wsl,rocm --no-dkms
+```
 
-- Goal: Conduct a deep investigation of a challenging applied problem. The focus is on comparing different methods and analyzing your results, not just on getting a high score.
-- Mandatory Requirements: You must implement and compare at least two fundamentally different model families (e.g., a decision tree ensemble vs. a neural network). Your report must also include a dedicated error analysis section where you investigate the types of mistakes your best model makes.
-- Main Challenge: Justifying your design choices at every step. Directly copying a public solution is not acceptable. You must build your own pipeline and provide a critical analysis of your model's performance that goes beyond a single accuracy score.
+You can see other use cases with:
+```sh
+sudo amdgpu-install --list-usecase
+```
 
-## Choosing a Dataset
+###### 3. Post-install verification check
+```sh
+rocminfo
+```
 
-The dataset you choose will affect your project.
-- For Tracks 1, 2, and 3, you should use the same dataset as the paper you are studying. These are often standard research datasets found in places like the Hugging Face Hub. This is important for a fair comparison.
-- For Track 4, you should find a problem that presents a realistic challenge. Kaggle and the UCI Machine Learning Repository are good sources. Look for a dataset that requires data cleaning, feature engineering, and model comparison. Avoid problems that have many perfect public solutions.
+You should see your GPU listed:
 
-## Timeline and Final Deliverables
+    [...]
+    *******
+    Agent 2
+    *******
+    Name:                    gfx1100
+    Marketing Name:          Radeon RX 7900 XTX
+    Vendor Name:             AMD
+    [...]
+    [...]
 
-- Nov. 12: Project Proposal Due.
-- Week of Dec. 1: Progress Check-in. A brief meeting with the TA to discuss your progress.
-- Dec. 8: Final Submission Due.
-- Dec. 10, 8 pm - 10:30 pm: Project Presentation Session.
 
-Your final submission must include three parts:
+### Clone the Repository
+```sh
+git clone https://github.com/andrewscouten/CS7313-Group-Project.git
+cd CS7313-Group-Project
+```
 
-- Final Report (6-8 pages): A report in a standard conference paper format (Abstract, Introduction, Methods, Results, Conclusion). It should clearly tell the story of your project. Upload to Canvas.
-- Source Code: A link to a Git repository (like GitHub). Your code should be clean and commented. Include a README.md file with instructions on how to set up the environment and run your code.
-- Pre-recorded Video Presentation (8-10 minutes): You will create a short video presenting your project, similar to a conference presentation. It must summarize your project's goal, methods, key results, and conclusions. During our scheduled final exam time, we will play each group's video. This will be followed by a live question and answer (Q&A) session with the course staff. Both team members must be present for the Q&A. Upload to Canvas.
+### Download Dependencies
+
+This project uses [uv](https://docs.astral.sh/uv/getting-started/installation/) as a dependency manager. To use uv to install dependencies, the command depends on your PyTorch version requirements listed below.
+
+#### CPU
+```sh
+uv sync --extra cpu
+```
+
+#### CUDA 12.8
+```sh
+uv sync --extra cu128
+```
+
+#### CUDA 13.0
+```sh
+uv sync --extra cu130
+```
+
+#### ROCm 6.4
+```sh
+uv sync --extra rocm
+```
+
+To get PyTorch to use my GPU on ROCm 6.4, I had to do the following (taken from [here](https://www.reddit.com/r/ROCm/comments/1ep4cru/rocm_613_complete_install_instructions_from_wsl/)):
+
+```sh
+location=`uv pip show torch | grep Location | awk -F ": " '{print $2}'`
+rm ${location}/torch/lib/libhsa-runtime64.so*
+cp /opt/rocm/lib/libhsa-runtime64.so ${location}/torch/lib/libhsa-runtime64.so
+```
+
+
+<!-- 
+```sh
+```
+-->
