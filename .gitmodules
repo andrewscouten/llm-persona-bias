@@ -3,3 +3,4 @@
 	url = https://github.com/myracheng/markedpersonas.git
 [submodule "tanhatahseen"]
 	path = tanhatahseen
+	url = https://github.com/tanhatahseen/Marked-Personas-Replication-Extension.git
