@@ -25,7 +25,9 @@
         "**/.venv/**",
         "**/docs/**",
         "**/markedpersonas/**",
-        "**/uv-cache/**"
+        "**/uv-cache/**",
+        "**/__pycache__/**",
+        "**/.git/**"
     ],
     "cSpell.allowCompoundWords": true,
     "cSpell.autocorrect": false,
