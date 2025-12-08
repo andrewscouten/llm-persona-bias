@@ -71,7 +71,7 @@ class Visualizer:
         return fig
 
     def visualize(
-        self, 
+        self,
         embeddings: np.ndarray, 
         show: bool = False,
         **kwargs
@@ -119,7 +119,11 @@ class Visualizer:
         for i, (name, emb) in enumerate(embeddings.items()):
             row = (i // n_cols) + 1
             col = (i % n_cols) + 1
-            fig_i = self.visualize(emb)
+            fig_i = self.visualize(
+                emb,
+                legendgroup=name,  # Group legends by dataset
+                showlegend=(i == 0),  # Only show legend for first subplot
+            )
             fig_i.name = name
             fig.add_trace(fig_i, row=row, col=col)
 
