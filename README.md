@@ -7,8 +7,8 @@ A comprehensive study examining biases in Large Language Models (LLMs) through a
 
 ## Authors
 
-- **Andrew Scouten**
-- **Tanha Tahseen**
+- **Andrew Scouten**, this repository
+- **Tanha Tahseen**, [Marked-Personas-Replication-Extension](https://github.com/tanhatahseen/Marked-Personas-Replication-Extension)
 
 ## Table of Contents
 
