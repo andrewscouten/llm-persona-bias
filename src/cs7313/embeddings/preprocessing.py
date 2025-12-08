@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Union, List
 
 
 class PreprocessingStrategy(ABC):

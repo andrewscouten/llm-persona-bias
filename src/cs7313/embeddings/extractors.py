@@ -45,10 +45,10 @@ class EmbeddingExtractor():
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
         # Load tokenizer and model
-        logger.debug("Loading model and tokenizer...")
+        logger.info("Loading model and tokenizer...")
         self.model = AutoModel.from_pretrained(model_name, **model_kwargs)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        logger.debug("Model and tokenizer loaded.")
+        logger.info("Model and tokenizer loaded.")
         self.model.to(self.device)
         self.model.eval()
 
@@ -65,8 +65,8 @@ class EmbeddingExtractor():
         self._embeddings: Optional[np.ndarray] = None
 
     def _mean_pooling(
-        self, 
-        model_output: Any, 
+        self,
+        model_output: Any,
         attention_mask: torch.Tensor
     ) -> np.ndarray:
         """
@@ -92,7 +92,7 @@ class EmbeddingExtractor():
         texts: List[str],
         batch_size: int = 32,
         show_progress: bool = True,
-        **tokenizer_args
+        **tokenizer_kwargs
     ) -> np.ndarray:
         """
         Extract embeddings for texts with batching.
@@ -106,8 +106,14 @@ class EmbeddingExtractor():
             Array of embeddings with shape (n_texts, embedding_dim)
         """
         embeddings = []
+        t_kwargs = {
+            "padding": True,
+            "truncation": True,
+            "return_tensors": "pt",
+            "max_length": 512,
+            **tokenizer_kwargs
+        }
         iterator = tqdm(range(0, len(texts), batch_size), disable=not show_progress)
-
         with torch.no_grad():
             for i in iterator:
                 batch_texts = texts[i : i + batch_size]
@@ -118,11 +124,7 @@ class EmbeddingExtractor():
                 # Tokenize
                 encoded_input = self.tokenizer(
                     processed_texts,
-                    padding=True,
-                    truncation=True,
-                    return_tensors="pt",
-                    # max_length=512,
-                    **tokenizer_args
+                    **t_kwargs
                 )
                 encoded_input = {
                     k: v.to(self.device) for k, v in encoded_input.items()
@@ -142,6 +144,7 @@ class EmbeddingExtractor():
         data: np.ndarray,
         batch_size: int = 32,
         show_progress: bool = True,
+        **tokenizer_args
     ) -> np.ndarray:
         """
         Extract embeddings from a dataframe column.
@@ -161,7 +164,10 @@ class EmbeddingExtractor():
         self._texts = texts
 
         self._embeddings = self._extract_embeddings_batch(
-            texts, batch_size=batch_size, show_progress=show_progress
+            texts, 
+            batch_size=batch_size,
+            show_progress=show_progress,
+            **tokenizer_args
         )
 
         return self._embeddings
