@@ -3,9 +3,9 @@
 [![Python 14](https://img.shields.io/badge/python-3.14-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-This study was done as part of the course work in the class CS7313 at Texas State University, taught by Dr. Vangelis Metsis.
-
 A comprehensive study examining biases in Large Language Models (LLMs) through analysis of persona-based text generations and embeddings. This project analyzes pre-generated data from the [markedpersonas](https://github.com/myracheng/markedpersonas) project to investigate how demographic attributes influence language model outputs and explore bias patterns.
+
+This study was done as part of the course work in the class CS7313 at Texas State University, taught by Dr. Vangelis Metsis, in the Fall of 2025.
 
 ## Authors
 
